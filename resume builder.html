@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder for Freshers</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .preview-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--secondary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
+        .resume {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .resume-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .resume-name {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        
+        .resume-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .resume-contact {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .resume-section {
+            margin-bottom: 25px;
+        }
+        
+        .resume-section-title {
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .experience-item, .education-item, .internship-item, .project-item, .coursework-item {
+            margin-bottom: 15px;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .item-title {
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .item-date {
+            color: #777;
+        }
+        
+        .item-subtitle {
+            font-style: italic;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        .skill-item {
+            display: inline-block;
+            background: #eef5ff;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 4px;
+        }
+        
+        .add-btn, .remove-btn {
+            background: #eee;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .add-btn {
+            color: var(--success-color);
+        }
+        
+        .remove-btn {
+            color: #e74c3c;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .internship-controls, .project-controls, .coursework-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .internship-number, .project-number, .coursework-number {
+            flex: 1;
+        }
+        
+        .internship-fields, .project-fields, .coursework-fields {
+            border: 1px dashed #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .internship-field-group, .project-field-group, .coursework-field-group {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .resume-contact {
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+            
+            .internship-controls, .project-controls, .coursework-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Resume Builder for Freshers</h1>
+            <p class="subtitle">Create a professional resume highlighting your academic achievements and potential</p>
+        </header>
+        
+        <div class="app-container">
+            <section class="form-section">
+                <h2 class="section-title">Personal Information</h2>
+                
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobTitle">Career Objective / Desired Position</label>
+                    <input type="text" id="jobTitle" placeholder="Entry-level Software Developer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="john.doe@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" placeholder="(123) 456-7890">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="City, State">
+                </div>
+                
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn Profile (Optional)</label>
+                    <input type="text" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                </div>
+                
+                <div class="form-group">
+                    <label for="github">GitHub Profile (Optional)</label>
+                    <input type="text" id="github" placeholder="https://github.com/yourusername">
+                </div>
+                
+                <div class="form-group">
+                    <label for="summary">Career Summary / Objective</label>
+                    <textarea id="summary" placeholder="Enthusiastic and motivated recent graduate seeking an entry-level position in software development..."></textarea>
+                </div>
+                
+                <h2 class="section-title">Education</h2>
+                <div id="education-container">
+                    <div class="education-form">
+                        <div class="form-group">
+                            <label for="degree1">Degree</label>
+                            <input type="text" id="degree1" placeholder="Bachelor of Science in Computer Science">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="university1">University</label>
+                            <input type="text" id="university1" placeholder="University of Technology">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="educationDate1">Date</label>
+                            <input type="text" id="educationDate1" placeholder="2019 - 2023">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gpa1">GPA</label>
+                            <input type="text" id="gpa1" placeholder="3.8/4.0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="achievements1">Academic Achievements (Optional)</label>
+                            <textarea id="achievements1" placeholder="Dean's List, Scholarships, etc."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button class="add-btn" id="add-education">+ Add Another Education</button>
+                
+                <h2 class="section-title">Internships</h2>
+                <div class="internship-controls">
+                    <div class="form-group internship-number">
+                        <label for="internshipCount">Number of Internships</label>
+                        <input type="number" id="internshipCount" min="0" max="10" value="0">
+                    </div>
+                    <button class="btn btn-warning" id="generate-internship-fields">Generate Fields</button>
+                </div>
+                
+                <div id="internship-container">
+                    <!-- Internship fields will be generated here -->
+                </div>
+                
+                <h2 class="section-title">Academic Projects</h2>
+                <div class="project-controls">
+                    <div class="form-group project-number">
+                        <label for="projectCount">Number of Projects</label>
+                        <input type="number" id="projectCount" min="0" max="10" value="0">
+                    </div>
+                    <button class="btn btn-warning" id="generate-project-fields">Generate Fields</button>
+                </div>
+                
+                <div id="project-container">
+                    <!-- Project fields will be generated here -->
+                </div>
+                
+                <h2 class="section-title">Relevant Coursework</h2>
+                <div class="coursework-controls">
+                    <div class="form-group coursework-number">
+                        <label for="courseworkCount">Number of Courses</label>
+                        <input type="number" id="courseworkCount" min="0" max="20" value="0">
+                    </div>
+                    <button class="btn btn-warning" id="generate-coursework-fields">Generate Fields</button>
+                </div>
+                
+                <div id="coursework-container">
+                    <!-- Coursework fields will be generated here -->
+                </div>
+                
+                <h2 class="section-title">Skills</h2>
+                <div class="form-group">
+                    <label for="technicalSkills">Technical Skills (comma separated)</label>
+                    <input type="text" id="technicalSkills" placeholder="Java, Python, SQL, HTML/CSS, JavaScript">
+                </div>
+                
+                <div class="form-group">
+                    <label for="softSkills">Soft Skills (comma separated)</label>
+                    <input type="text" id="softSkills" placeholder="Communication, Problem-solving, Teamwork">
+                </div>
+                
+                <h2 class="section-title">Certifications & Awards</h2>
+                <div class="form-group">
+                    <label for="certifications">Certifications & Awards (one per line)</label>
+                    <textarea id="certifications" placeholder="Google IT Support Professional Certificate&#10;Dean's List for 3 semesters"></textarea>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-block" id="generate-resume">Generate Resume</button>
+                    <button class="btn btn-block" id="print-resume" style="background: var(--secondary-color);">Print Resume</button>
+                    <button class="btn btn-block" id="reset-form" style="background: var(--warning-color);">Reset Form</button>
+                </div>
+            </section>
+            
+            <section class="preview-section">
+                <h2 class="section-title">Resume Preview</h2>
+                <div id="resume-preview" class="resume">
+                    <div class="resume-header">
+                        <h1 class="resume-name">Your Name</h1>
+                        <p class="resume-title">Career Objective</p>
+                        <div class="resume-contact">
+                            <span>email@example.com</span>
+                            <span>(123) 456-7890</span>
+                            <span>City, State</span>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Career Summary</h3>
+                        <p>Your career summary will appear here.</p>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Education</h3>
+                        <div class="education-item">
+                            <div class="item-header">
+                                <span class="item-title">Degree Name</span>
+                                <span class="item-date">Date Range</span>
+                            </div>
+                            <div class="item-subtitle">University Name</div>
+                            <p>GPA: 3.8/4.0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Internships</h3>
+                        <div class="internship-item">
+                            <div class="item-header">
+                                <span class="item-title">Internship Role</span>
+                                <span class="item-date">Duration</span>
+                            </div>
+                            <div class="item-subtitle">Company Name</div>
+                            <p>Description of internship responsibilities and achievements.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Academic Projects</h3>
+                        <div class="project-item">
+                            <div class="item-header">
+                                <span class="item-title">Project Title</span>
+                                <span class="item-date">Date Completed</span>
+                            </div>
+                            <p>Description of the project, technologies used, and your role.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Relevant Coursework</h3>
+                        <p>Data Structures, Algorithms, Database Management, Web Development, Software Engineering</p>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Skills</h3>
+                        <h4>Technical Skills</h4>
+                        <div class="skill-item">Skill 1</div>
+                        <div class="skill-item">Skill 2</div>
+                        <div class="skill-item">Skill 3</div>
+                        
+                        <h4>Soft Skills</h4>
+                        <div class="skill-item">Communication</div>
+                        <div class="skill-item">Problem-solving</div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Certifications & Awards</h3>
+                        <ul>
+                            <li>Certification 1</li>
+                            <li>Award 1</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const fullNameInput = document.getElementById('fullName');
+            const jobTitleInput = document.getElementById('jobTitle');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const locationInput = document.getElementById('location');
+            const linkedinInput = document.getElementById('linkedin');
+            const githubInput = document.getElementById('github');
+            const summaryInput = document.getElementById('summary');
+            const technicalSkillsInput = document.getElementById('technicalSkills');
+            const softSkillsInput = document.getElementById('softSkills');
+            const certificationsInput = document.getElementById('certifications');
+            
+            const internshipCountInput = document.getElementById('internshipCount');
+            const projectCountInput = document.getElementById('projectCount');
+            const courseworkCountInput = document.getElementById('courseworkCount');
+            
+            const educationContainer = document.getElementById('education-container');
+            const internshipContainer = document.getElementById('internship-container');
+            const projectContainer = document.getElementById('project-container');
+            const courseworkContainer = document.getElementById('coursework-container');
+            
+            const addEducationBtn = document.getElementById('add-education');
+            const generateInternshipFieldsBtn = document.getElementById('generate-internship-fields');
+            const generateProjectFieldsBtn = document.getElementById('generate-project-fields');
+            const generateCourseworkFieldsBtn = document.getElementById('generate-coursework-fields');
+            
+            const generateResumeBtn = document.getElementById('generate-resume');
+            const printResumeBtn = document.getElementById('print-resume');
+            const resetFormBtn = document.getElementById('reset-form');
+            
+            const resumePreview = document.getElementById('resume-preview');
+            
+            // Counters
+            let educationCount = 1;
+            let internshipCount = 0;
+            let projectCount = 0;
+            let courseworkCount = 0;
+            
+            // Add education field
+            addEducationBtn.addEventListener('click', function() {
+                educationCount++;
+                
+                const newEducation = document.createElement('div');
+                newEducation.className = 'education-form';
+                newEducation.innerHTML = `
+                    <div class="form-group">
+                        <label for="degree${educationCount}">Degree</label>
+                        <input type="text" id="degree${educationCount}" placeholder="Bachelor of Science in Computer Science">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="university${educationCount}">University</label>
+                        <input type="text" id="university${educationCount}" placeholder="University of Technology">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="educationDate${educationCount}">Date</label>
+                        <input type="text" id="educationDate${educationCount}" placeholder="2019 - 2023">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gpa${educationCount}">GPA</label>
+                        <input type="text" id="gpa${educationCount}" placeholder="3.8/4.0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="achievements${educationCount}">Academic Achievements (Optional)</label>
+                        <textarea id="achievements${educationCount}" placeholder="Dean's List, Scholarships, etc."></textarea>
+                    </div>
+                    <button class="remove-btn remove-education">Remove</button>
+                `;
+                
+                educationContainer.appendChild(newEducation);
+                
+                // Add event listener to remove button
+                newEducation.querySelector('.remove-education').addEventListener('click', function() {
+                    educationContainer.removeChild(newEducation);
+                });
+            });
+            
+            // Generate internship fields based on number input
+            generateInternshipFieldsBtn.addEventListener('click', function() {
+                const count = parseInt(internshipCountInput.value) || 0;
+                internshipCount = count;
+                
+                // Clear existing internship fields
+                internshipContainer.innerHTML = '';
+                
+                // Generate new fields
+                for (let i = 1; i <= count; i++) {
+                    const internshipFieldGroup = document.createElement('div');
+                    internshipFieldGroup.className = 'internship-field-group';
+                    internshipFieldGroup.innerHTML = `
+                        <h3>Internship #${i}</h3>
+                        <div class="form-group">
+                            <label for="internshipRole${i}">Role/Position</label>
+                            <input type="text" id="internshipRole${i}" placeholder="Software Development Intern">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="internshipCompany${i}">Company</label>
+                            <input type="text" id="internshipCompany${i}" placeholder="Tech Corp Inc.">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="internshipDuration${i}">Duration</label>
+                            <input type="text" id="internshipDuration${i}" placeholder="Summer 2022 (3 months)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="internshipDescription${i}">Description</label>
+                            <textarea id="internshipDescription${i}" placeholder="Describe your responsibilities and achievements..."></textarea>
+                        </div>
+                    `;
+                    
+                    internshipContainer.appendChild(internshipFieldGroup);
+                }
+            });
+            
+            // Generate project fields based on number input
+            generateProjectFieldsBtn.addEventListener('click', function() {
+                const count = parseInt(projectCountInput.value) || 0;
+                projectCount = count;
+                
+                // Clear existing project fields
+                projectContainer.innerHTML = '';
+                
+                // Generate new fields
+                for (let i = 1; i <= count; i++) {
+                    const projectFieldGroup = document.createElement('div');
+                    projectFieldGroup.className = 'project-field-group';
+                    projectFieldGroup.innerHTML = `
+                        <h3>Project #${i}</h3>
+                        <div class="form-group">
+                            <label for="projectTitle${i}">Project Title</label>
+                            <input type="text" id="projectTitle${i}" placeholder="E-commerce Website">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="projectDate${i}">Date Completed</label>
+                            <input type="text" id="projectDate${i}" placeholder="Spring 2023">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="projectTechnologies${i}">Technologies Used</label>
+                            <input type="text" id="projectTechnologies${i}" placeholder="React, Node.js, MongoDB">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="projectDescription${i}">Description</label>
+                            <textarea id="projectDescription${i}" placeholder="Describe the project, your role, and key features..."></textarea>
+                        </div>
+                    `;
+                    
+                    projectContainer.appendChild(projectFieldGroup);
+                }
+            });
+            
+            // Generate coursework fields based on number input
+            generateCourseworkFieldsBtn.addEventListener('click', function() {
+                const count = parseInt(courseworkCountInput.value) || 0;
+                courseworkCount = count;
+                
+                // Clear existing coursework fields
+                courseworkContainer.innerHTML = '';
+                
+                // Generate new fields
+                for (let i = 1; i <= count; i++) {
+                    const courseworkFieldGroup = document.createElement('div');
+                    courseworkFieldGroup.className = 'coursework-field-group';
+                    courseworkFieldGroup.innerHTML = `
+                        <h3>Course #${i}</h3>
+                        <div class="form-group">
+                            <label for="courseName${i}">Course Name</label>
+                            <input type="text" id="courseName${i}" placeholder="Data Structures and Algorithms">
+                        </div>
+                    `;
+                    
+                    courseworkContainer.appendChild(courseworkFieldGroup);
+                }
+            });
+            
+            // Generate resume
+            generateResumeBtn.addEventListener('click', function() {
+                // Personal Information
+                const fullName = fullNameInput.value || 'Your Name';
+                const jobTitle = jobTitleInput.value || 'Career Objective';
+                const email = emailInput.value || 'email@example.com';
+                const phone = phoneInput.value || '(123) 456-7890';
+                const location = locationInput.value || 'City, State';
+                const linkedin = linkedinInput.value || '';
+                const github = githubInput.value || '';
+                const summary = summaryInput.value || 'Your career summary will appear here.';
+                
+                // Skills
+                const technicalSkills = technicalSkillsInput.value ? technicalSkillsInput.value.split(',').map(skill => skill.trim()) : ['Skill 1', 'Skill 2', 'Skill 3'];
+                const softSkills = softSkillsInput.value ? softSkillsInput.value.split(',').map(skill => skill.trim()) : ['Communication', 'Problem-solving'];
+                
+                // Certifications
+                const certifications = certificationsInput.value ? certificationsInput.value.split('\n').filter(line => line.trim() !== '') : ['Certification 1', 'Award 1'];
+                
+                // Generate HTML for resume
+                let resumeHTML = `
+                    <div class="resume-header">
+                        <h1 class="resume-name">${fullName}</h1>
+                        <p class="resume-title">${jobTitle}</p>
+                        <div class="resume-contact">
+                            <span>${email}</span>
+                            <span>${phone}</span>
+                            <span>${location}</span>
+                            ${linkedin ? `<span><a href="${linkedin}">LinkedIn</a></span>` : ''}
+                            ${github ? `<span><a href="${github}">GitHub</a></span>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Career Summary</h3>
+                        <p>${summary}</p>
+                    </div>
+                `;
+                
+                // Education
+                resumeHTML += `<div class="resume-section"><h3 class="resume-section-title">Education</h3>`;
+                
+                for (let i = 1; i <= educationCount; i++) {
+                    const degree = document.getElementById(`degree${i}`);
+                    const university = document.getElementById(`university${i}`);
+                    const educationDate = document.getElementById(`educationDate${i}`);
+                    const gpa = document.getElementById(`gpa${i}`);
+                    const achievements = document.getElementById(`achievements${i}`);
+                    
+                    if (degree && degree.value) {
+                        resumeHTML += `
+                            <div class="education-item">
+                                <div class="item-header">
+                                    <span class="item-title">${degree.value}</span>
+                                    <span class="item-date">${educationDate ? educationDate.value : ''}</span>
+                                </div>
+                                <div class="item-subtitle">${university ? university.value : ''}</div>
+                                ${gpa && gpa.value ? `<p>GPA: ${gpa.value}</p>` : ''}
+                                ${achievements && achievements.value ? `<p>${achievements.value}</p>` : ''}
+                            </div>
+                        `;
+                    }
+                }
+                
+                resumeHTML += `</div>`;
+                
+                // Internships
+                if (internshipCount > 0) {
+                    resumeHTML += `<div class="resume-section"><h3 class="resume-section-title">Internships</h3>`;
+                    
+                    for (let i = 1; i <= internshipCount; i++) {
+                        const role = document.getElementById(`internshipRole${i}`);
+                        const company = document.getElementById(`internshipCompany${i}`);
+                        const duration = document.getElementById(`internshipDuration${i}`);
+                        const description = document.getElementById(`internshipDescription${i}`);
+                        
+                        if (role && role.value) {
+                            resumeHTML += `
+                                <div class="internship-item">
+                                    <div class="item-header">
+                                        <span class="item-title">${role.value}</span>
+                                        <span class="item-date">${duration ? duration.value : ''}</span>
+                                    </div>
+                                    <div class="item-subtitle">${company ? company.value : ''}</div>
+                                    <p>${description ? description.value : ''}</p>
+                                </div>
+                            `;
+                        }
+                    }
+                    
+                    resumeHTML += `</div>`;
+                }
+                
+                // Academic Projects
+                if (projectCount > 0) {
+                    resumeHTML += `<div class="resume-section"><h3 class="resume-section-title">Academic Projects</h3>`;
+                    
+                    for (let i = 1; i <= projectCount; i++) {
+                        const title = document.getElementById(`projectTitle${i}`);
+                        const date = document.getElementById(`projectDate${i}`);
+                        const technologies = document.getElementById(`projectTechnologies${i}`);
+                        const description = document.getElementById(`projectDescription${i}`);
+                        
+                        if (title && title.value) {
+                            resumeHTML += `
+                                <div class="project-item">
+                                    <div class="item-header">
+                                        <span class="item-title">${title.value}</span>
+                                        <span class="item-date">${date ? date.value : ''}</span>
+                                    </div>
+                                    ${technologies && technologies.value ? `<p><strong>Technologies:</strong> ${technologies.value}</p>` : ''}
+                                    <p>${description ? description.value : ''}</p>
+                                </div>
+                            `;
+                        }
+                    }
+                    
+                    resumeHTML += `</div>`;
+                }
+                
+                // Relevant Coursework
+                if (courseworkCount > 0) {
+                    resumeHTML += `<div class="resume-section"><h3 class="resume-section-title">Relevant Coursework</h3><p>`;
+                    
+                    const courses = [];
+                    for (let i = 1; i <= courseworkCount; i++) {
+                        const course = document.getElementById(`courseName${i}`);
+                        if (course && course.value) {
+                            courses.push(course.value);
+                        }
+                    }
+                    
+                    resumeHTML += courses.join(', ');
+                    resumeHTML += `</p></div>`;
+                }
+                
+                // Skills
+                resumeHTML += `
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Skills</h3>
+                        <h4>Technical Skills</h4>
+                `;
+                
+                technicalSkills.forEach(skill => {
+                    if (skill) {
+                        resumeHTML += `<div class="skill-item">${skill}</div>`;
+                    }
+                });
+                
+                resumeHTML += `<h4>Soft Skills</h4>`;
+                
+                softSkills.forEach(skill => {
+                    if (skill) {
+                        resumeHTML += `<div class="skill-item">${skill}</div>`;
+                    }
+                });
+                
+                resumeHTML += `</div>`;
+                
+                // Certifications & Awards
+                if (certifications.length > 0) {
+                    resumeHTML += `
+                        <div class="resume-section">
+                            <h3 class="resume-section-title">Certifications & Awards</h3>
+                            <ul>
+                    `;
+                    
+                    certifications.forEach(cert => {
+                        if (cert) {
+                            resumeHTML += `<li>${cert}</li>`;
+                        }
+                    });
+                    
+                    resumeHTML += `</ul></div>`;
+                }
+                
+                // Update preview
+                resumePreview.innerHTML = resumeHTML;
+            });
+            
+            // Print resume
+            printResumeBtn.addEventListener('click', function() {
+                const printWindow = window.open('', '', 'height=800,width=800');
+                printWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>Resume - ${fullNameInput.value || 'Your Name'}</title>
+                            <style>
+                                body {
+                                    font-family: 'Georgia', serif;
+                                    line-height: 1.6;
+                                    color: #333;
+                                    max-width: 800px;
+                                    margin: 0 auto;
+                                    padding: 20px;
+                                }
+                                .resume-header {
+                                    text-align: center;
+                                    margin-bottom: 30px;
+                                    padding-bottom: 20px;
+                                    border-bottom: 2px solid #3498db;
+                                }
+                                .resume-name {
+                                    font-size: 2rem;
+                                    margin-bottom: 5px;
+                                    color: #2c3e50;
+                                }
+                                .resume-title {
+                                    font-size: 1.2rem;
+                                    color: #3498db;
+                                    margin-bottom: 10px;
+                                }
+                                .resume-contact {
+                                    display: flex;
+                                    justify-content: center;
+                                    flex-wrap: wrap;
+                                    gap: 15px;
+                                    margin-bottom: 10px;
+                                }
+                                .resume-section {
+                                    margin-bottom: 25px;
+                                }
+                                .resume-section-title {
+                                    font-size: 1.3rem;
+                                    color: #2c3e50;
+                                    margin-bottom: 10px;
+                                    padding-bottom: 5px;
+                                    border-bottom: 1px solid #eee;
+                                }
+                                .experience-item, .education-item, .internship-item, .project-item {
+                                    margin-bottom: 15px;
+                                }
+                                .item-header {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    margin-bottom: 5px;
+                                }
+                                .item-title {
+                                    font-weight: bold;
+                                    color: #34495e;
+                                }
+                                .item-date {
+                                    color: #777;
+                                }
+                                .item-subtitle {
+                                    font-style: italic;
+                                    margin-bottom: 5px;
+                                    color: #555;
+                                }
+                                .skill-item {
+                                    display: inline-block;
+                                    background: #eef5ff;
+                                    padding: 5px 10px;
+                                    margin: 5px;
+                                    border-radius: 4px;
+                                }
+                                a {
+                                    color: #3498db;
+                                    text-decoration: none;
+                                }
+                                @media print {
+                                    body {
+                                        padding: 0;
+                                    }
+                                    a {
+                                        color: #2c3e50;
+                                        text-decoration: none;
+                                    }
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            ${resumePreview.innerHTML}
+                        </body>
+                    </html>
+                `);
+                
+                printWindow.document.close();
+                printWindow.focus();
+                
+                setTimeout(() => {
+                    printWindow.print();
+                    printWindow.close();
+                }, 500);
+            });
+            
+            // Reset form
+            resetFormBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset the form? All data will be lost.')) {
+                    // Clear all inputs
+                    document.querySelectorAll('input, textarea').forEach(input => {
+                        input.value = '';
+                    });
+                    
+                    // Reset counters
+                    educationCount = 1;
+                    internshipCount = 0;
+                    projectCount = 0;
+                    courseworkCount = 0;
+                    
+                    // Clear dynamic fields
+                    while (educationContainer.children.length > 1) {
+                        educationContainer.removeChild(educationContainer.lastChild);
+                    }
+                    
+                    internshipContainer.innerHTML = '';
+                    projectContainer.innerHTML = '';
+                    courseworkContainer.innerHTML = '';
+                    
+                    // Reset preview
+                    generateResumeBtn.click();
+                }
+            });
+            
+            // Initialize with sample data for freshers
+            function initializeSampleData() {
+                fullNameInput.value = "Alex Johnson";
+                jobTitleInput.value = "Entry-level Software Developer";
+                emailInput.value = "alex.johnson@example.com";
+                phoneInput.value = "(555) 123-4567";
+                locationInput.value = "Seattle, WA";
+                linkedinInput.value = "https://linkedin.com/in/alexjohnson";
+                githubInput.value = "https://github.com/alexjohnson";
+                summaryInput.value = "Recent Computer Science graduate with strong foundation in software engineering principles and programming. Eager to apply academic knowledge and internship experience to real-world challenges. Proven ability to complete projects efficiently and collaborate in team environments.";
+                
+                document.getElementById('degree1').value = "Bachelor of Science in Computer Science";
+                document.getElementById('university1').value = "University of Washington";
+                document.getElementById('educationDate1').value = "2019 - 2023";
+                document.getElementById('gpa1').value = "3.7/4.0";
+                document.getElementById('achievements1').value = "Dean's List (Fall 2021, Spring 2022), Computer Science Department Scholarship";
+                
+                internshipCountInput.value = "1";
+                generateInternshipFieldsBtn.click();
+                
+                document.getElementById('internshipRole1').value = "Software Development Intern";
+                document.getElementById('internshipCompany1').value = "Tech Solutions Inc.";
+                document.getElementById('internshipDuration1').value = "Summer 2022 (3 months)";
+                document.getElementById('internshipDescription1').value = "Assisted in developing new features for customer portal using React and Node.js. Participated in code reviews and agile development processes. Collaborated with senior developers to fix bugs and improve application performance.";
+                
+                projectCountInput.value = "2";
+                generateProjectFieldsBtn.click();
+                
+                document.getElementById('projectTitle1').value = "E-commerce Website";
+                document.getElementById('projectDate1').value = "Spring 2023";
+                document.getElementById('projectTechnologies1').value = "React, Node.js, MongoDB, Express";
+                document.getElementById('projectDescription1').value = "Developed a full-stack e-commerce application with user authentication, product catalog, shopping cart, and payment integration. Implemented responsive design for mobile compatibility.";
+                
+                document.getElementById('projectTitle2').value = "Task Management App";
+                document.getElementById('projectDate2').value = "Fall 2022";
+                document.getElementById('projectTechnologies2').value = "JavaScript, HTML, CSS, Local Storage API";
+                document.getElementById('projectDescription2').value = "Created a single-page application for task management with features for adding, editing, deleting, and categorizing tasks. Implemented data persistence using browser local storage.";
+                
+                courseworkCountInput.value = "6";
+                generateCourseworkFieldsBtn.click();
+                
+                document.getElementById('courseName1').value = "Data Structures and Algorithms";
+                document.getElementById('courseName2').value = "Database Management Systems";
+                document.getElementById('courseName3').value = "Software Engineering";
+                document.getElementById('courseName4').value = "Web Development";
+                document.getElementById('courseName5').value = "Object-Oriented Programming";
+                document.getElementById('courseName6').value = "Computer Networks";
+                
+                technicalSkillsInput.value = "Java, Python, JavaScript, React, Node.js, SQL, HTML/CSS, Git";
+                softSkillsInput.value = "Problem-solving, Teamwork, Communication, Adaptability, Time Management";
+                
+                certificationsInput.value = "AWS Cloud Practitioner Certification (Expected Dec 2023)\nDean's List for Academic Excellence (2021-2022)\nFirst Place in University Hackathon (2022)";
+                
+                // Generate initial resume
+                generateResumeBtn.click();
+            }
+            
+            // Initialize with sample data
+            initializeSampleData();
+        });
+    </script>
+</body>
+</html>
